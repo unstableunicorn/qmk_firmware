@@ -1,0 +1,26 @@
+name: PR Build
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+
+jobs:
+  BuildQMKFirmware:
+    runs-on: ubuntu-latest           
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Firmware
+      uses: justgook/qmk-build@v1
+      with:
+        keymap-path: "keyboards/cantor_remix/keymaps/default"
+        keyboard: "cantor_remix"
+        keymap: "default"
+
+    - name: Upload a Firmware
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: firmware
+        path: build
